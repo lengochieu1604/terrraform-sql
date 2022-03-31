@@ -8,11 +8,11 @@ terraform {
 }
 
 provider "azurerm" {
-  subscription_id = "175d0115-0afd-483a-b40c-22cd651672a5"
-  # subscription_id = "766e3828-314d-4503-a59d-a035baba3829"
-  # client_id       = "7048caf3-327c-4b70-9461-e47683ec9b6f"
-  # client_secret   = "BkK7Q~mxpNI4TIH-eb7B9oGvx6ntABH~L-iQn"
-  tenant_id       = "d77fcdfa-f2c1-4406-9662-273bde4fe9a9"
+  subscription_id = ""
+  # subscription_id = ""
+  # client_id       = ""
+  # client_secret   = ""
+  tenant_id       = ""
   features {}
 }
 
@@ -56,8 +56,8 @@ resource "azurerm_sql_server" "app_server" {
   resource_group_name          = azurerm_resource_group.app_grp1.name
   location                     = azurerm_resource_group.app_grp1.location 
   version                      = "12.0"
-  administrator_login          = "sqladmin"
-  administrator_login_password = "Azure@123"
+  administrator_login          = ""
+  administrator_login_password = ""
 }
 
 resource "azurerm_sql_database" "app_db" {
@@ -85,8 +85,8 @@ resource "azurerm_sql_firewall_rule" "app_server_firewall_rule" {
   name                = "app-server-firewall-rule"
   resource_group_name = azurerm_resource_group.app_grp1.name
   server_name         = azurerm_sql_server.app_server.name
-  start_ip_address    = "1.52.205.80"
-  end_ip_address      = "1.52.205.80"
+  start_ip_address    = ""
+  end_ip_address      = ""
   depends_on=[
     azurerm_sql_server.app_server
   ]
@@ -94,7 +94,7 @@ resource "azurerm_sql_firewall_rule" "app_server_firewall_rule" {
 
 resource "null_resource" "database_setup" {
   provisioner "local-exec" {
-      command = "sqlcmd -S appserver7531.database.windows.net -U sqladmin -P Azure@123 -d appdb -i init.sql"
+      command = "sqlcmd -S appserver7531.database.windows.net -U sqladmin -P your_pasword -d appdb -i init.sql"
   }
   depends_on=[
     azurerm_sql_server.app_server
